@@ -9,38 +9,55 @@ import SwiftUI
 
 struct ContentView: View {
     let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
-
+    
     @State private var cardCount: Int = 4
     
     var body: some View {
         VStack {
-            HStack {
-                ForEach(0..<cardCount, id: \.self) { index in
-                    CardView(content: emojis[index])
-                }
-            }  .foregroundColor(.orange)
-            
-            HStack {
-                Button {
-                    cardCount -= 1
-                } label: {
-                    Image(systemName: "rectangle.stack.badge.minus.fill")
-                }
-                .imageScale(.large)
-                .font(.largeTitle)
-                
-                Spacer()
-                
-                Button {
-                    cardCount += 1
-                } label: {
-                    Image(systemName: "rectangle.stack.badge.plus.fill")
-                }
-                .imageScale(.large)
-                .font(.largeTitle)
-            }.padding()
+            cards
+            cardCountAdjusters
         }
         .padding()
+    }
+    
+    var cards: some View {
+        HStack {
+            ForEach(0..<cardCount, id: \.self) { index in
+                CardView(content: emojis[index])
+            }
+        }  .foregroundColor(.orange)
+    }
+    
+    var cardCountAdjusters: some View {
+        HStack {
+            cardRemover
+            Spacer()
+            cardAdder
+        }.padding()
+    }
+    
+    var cardRemover: some View {
+        Button {
+            if cardCount > 1 {
+                cardCount -= 1
+            }
+        } label: {
+            Image(systemName: "rectangle.stack.badge.minus.fill")
+        }
+        .imageScale(.large)
+        .font(.largeTitle)
+    }
+    
+    var cardAdder: some View {
+        Button {
+            if cardCount < emojis.count {
+                cardCount += 1
+            }
+        } label: {
+            Image(systemName: "rectangle.stack.badge.plus.fill")
+        }
+        .imageScale(.large)
+        .font(.largeTitle)
     }
 }
 
