@@ -14,16 +14,20 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            cards
+            ScrollView {
+                cards
+            }
+            Spacer()
             cardCountAdjusters
         }
         .padding()
     }
     
     var cards: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
             ForEach(0..<cardCount, id: \.self) { index in
                 CardView(content: emojis[index])
+                    .aspectRatio(2/3, contentMode: .fit)
             }
         }  .foregroundColor(.orange)
     }
@@ -58,7 +62,7 @@ struct ContentView: View {
     
     struct CardView: View {
         // Views are immutable and to change the value I need to use @State variable.
-        @State var isFaceUp = false
+        @State var isFaceUp = true
         let content: String
         
         var body: some View {
@@ -67,16 +71,16 @@ struct ContentView: View {
                 // let base: RoundedRectangle = RoundedRectangle(cornerRadius: 12)
                 // But beacuse of "Type Inference" we don't need to explicitly write Type.
                 let base = RoundedRectangle(cornerRadius: 12)
-                
                 // But ViewBuilder only can do If's (conditionals, also Switch), lists and local variables.
-                
-                if isFaceUp {
+
+                // Use Group to "group" together statements and add modifiers. Instead of adding opacity on every line inside Group, I just add Opacity as Group modifier.
+                Group {
                     base.fill(.white)
                     base.strokeBorder(lineWidth: 2)
                     Text(content).font(.largeTitle)
-                } else {
-                    base.fill()
-                }
+                }.opacity(isFaceUp ? 1 : 0)
+                
+                base.fill().opacity(isFaceUp ? 0 : 1)
             }.onTapGesture {
                 // onTapGesture has argument "count" which decides how many times View needs to be tapped to execute onTapGesture function. Default count is 1.
                 isFaceUp.toggle()
