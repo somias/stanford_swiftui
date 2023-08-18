@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    var viewModel: EmojiMemoryGame = EmojiMemoryGame()
+    @ObservedObject var viewModel: EmojiMemoryGame
     let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
     
     var body: some View {
-        
-        ScrollView {
-            cards
+        VStack {
+            ScrollView {
+                cards
+                    .scrollIndicators(.hidden)
+            }
+            Button("Shuffle") {
+                viewModel.shuffle()
+            }
         }.padding()
-         .scrollIndicators(.hidden)
     }
     
     var cards: some View {
@@ -49,7 +53,10 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: 2)
-                Text(card.content).font(.largeTitle)
+                Text(card.content)
+                    .font(.system(size: 200))
+                    .minimumScaleFactor(0.01)
+                    .aspectRatio(1, contentMode: .fit)
             }.opacity(card.isFaceUp ? 1 : 0)
             
             base.fill().opacity(card.isFaceUp ? 0 : 1)
@@ -77,6 +84,6 @@ struct CardView: View {
 
 struct EmojiMemoryGameView_Previews: PreviewProvider {
     static var previews: some View {
-        EmojiMemoryGameView()
+        EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }
