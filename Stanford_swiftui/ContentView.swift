@@ -7,28 +7,9 @@
 
 import SwiftUI
 
-let halloweenEmojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
-let spaceEmojis = ["🚀", "🌌", "🪐", "🛰️", "🌠", "🌕", "👾", "👽", "🌍", "🔭", "🌘", "🌑"]
-let natureEmojis = ["🌿", "🌸", "🍃", "🌻", "🌳", "🌺", "🐝", "🦋", "🐞", "🍂", "🍁", "🌼"]
-
 struct ContentView: View {
-    
-    @State private var emojis: [String] = halloweenEmojis
-    @State private var selectedTheme: [String] = halloweenEmojis
+    let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
     @State private var cardCount: Int = 4
-    
-    private var emojiThemeColor: Color {
-        switch selectedTheme {
-        case spaceEmojis:
-            return .blue
-        case natureEmojis:
-            return .green
-        case halloweenEmojis:
-            return .orange
-        default:
-            return .orange
-        }
-    }
 
     var body: some View {
         VStack {
@@ -37,75 +18,47 @@ struct ContentView: View {
                 cards
             }.scrollIndicators(.hidden)
             Spacer()
-            // Comment out Add/Remove buttons for now
-            // cardCountAdjusters
-            themeButtons
+             cardCountAdjusters
         }
         .padding()
     }
     
     var cards: some View {
         LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-            ForEach(emojis, id: \.self) { emoji in
-                CardView(content: emoji)
+            ForEach(0..<cardCount, id: \.self) { index in
+                CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
-        }  .foregroundColor(emojiThemeColor)
+        }  .foregroundColor(.orange)
     }
-    
-    var themeButtons: some View {
-        HStack {
-            themeButtonCreator(for: halloweenEmojis, symbol: "theatermasks.fill", title: "Halloween")
-            Spacer()
-            themeButtonCreator(for: spaceEmojis, symbol: "moon.stars.fill", title: "Space")
-            Spacer()
-            themeButtonCreator(for: natureEmojis, symbol: "leaf.fill", title: "Nature")
-            
-        }.padding(.horizontal)
-    }
-    
-    func themeButtonCreator(for theme: [String], symbol: String, title: String) -> some View {
-        Button {
-            selectedTheme = theme
-            emojis = theme.shuffled()
-        } label: {
-            VStack {
-                Image(systemName: symbol)
-                Text(title).font(.subheadline)
-            }
+
+        var cardCountAdjusters: some View {
+            HStack {
+                cardRemover
+                Spacer()
+                cardAdder
+            }.padding()
         }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
     
-    // Commented out this code for now
-    //    var cardCountAdjusters: some View {
-    //        HStack {
-    //            cardRemover
-    //            Spacer()
-    //            cardAdder
-    //        }.padding()
-    //    }
-    //
-    //
-    //    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
-    //        Button {
-    //            cardCount += offset
-    //        } label: {
-    //            Image(systemName: symbol)
-    //        }
-    //        .imageScale(.large)
-    //        .font(.largeTitle)
-    //        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    //    }
-    //
-    //    var cardRemover: some View {
-    //        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
-    //    }
-    //
-    //    var cardAdder: some View {
-    //        cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
-    //    }
+    
+        func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
+            Button {
+                cardCount += offset
+            } label: {
+                Image(systemName: symbol)
+            }
+            .imageScale(.large)
+            .font(.largeTitle)
+            .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
+        }
+    
+        var cardRemover: some View {
+            cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
+        }
+    
+        var cardAdder: some View {
+            cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
+        }
 }
 
 struct CardView: View {

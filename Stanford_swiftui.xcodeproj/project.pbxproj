@@ -11,6 +11,7 @@
 		0724EB2A2A8CDDDC00F4FF0B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0724EB292A8CDDDC00F4FF0B /* ContentView.swift */; };
 		0724EB2C2A8CDDDD00F4FF0B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0724EB2B2A8CDDDD00F4FF0B /* Assets.xcassets */; };
 		0724EB2F2A8CDDDD00F4FF0B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0724EB2E2A8CDDDD00F4FF0B /* Preview Assets.xcassets */; };
+		079E949F2A8F78C200A8D955 /* Assignment_1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079E949E2A8F78C200A8D955 /* Assignment_1.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		0724EB292A8CDDDC00F4FF0B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0724EB2B2A8CDDDD00F4FF0B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0724EB2E2A8CDDDD00F4FF0B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		079E949E2A8F78C200A8D955 /* Assignment_1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assignment_1.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 		0724EB262A8CDDDC00F4FF0B /* Stanford_swiftui */ = {
 			isa = PBXGroup;
 			children = (
+				079E949D2A8F789F00A8D955 /* Assignment_1 */,
 				0724EB272A8CDDDC00F4FF0B /* Stanford_swiftuiApp.swift */,
 				0724EB292A8CDDDC00F4FF0B /* ContentView.swift */,
 				0724EB2B2A8CDDDD00F4FF0B /* Assets.xcassets */,
@@ -65,6 +68,14 @@
 				0724EB2E2A8CDDDD00F4FF0B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		079E949D2A8F789F00A8D955 /* Assignment_1 */ = {
+			isa = PBXGroup;
+			children = (
+				079E949E2A8F78C200A8D955 /* Assignment_1.swift */,
+			);
+			path = Assignment_1;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +150,7 @@
 			files = (
 				0724EB2A2A8CDDDC00F4FF0B /* ContentView.swift in Sources */,
 				0724EB282A8CDDDC00F4FF0B /* Stanford_swiftuiApp.swift in Sources */,
+				079E949F2A8F78C200A8D955 /* Assignment_1.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
