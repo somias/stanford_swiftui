@@ -45,7 +45,7 @@ struct Assignment_1: View {
     var cards: some View {
         LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
             ForEach(emojis, id: \.self) { emoji in
-                CardView(content: emoji)
+                Assignment1CardView(content: emoji)
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }  .foregroundColor(emojiThemeColor)

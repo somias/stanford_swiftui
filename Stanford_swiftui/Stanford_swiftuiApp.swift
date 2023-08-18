@@ -11,7 +11,7 @@ import SwiftUI
 struct Stanford_swiftuiApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            EmojiMemoryGameView()
         }
     }
 }
