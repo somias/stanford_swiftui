@@ -22,21 +22,39 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: cardContent, id: "\(pairIndex + 1)b"))
         }
     }
+    
+    var indexOfOneAndOnlyFaceUpCard: Int? {
+        get { cards.indices.filter { index in cards[index].isFaceUp }.only }
+        set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
+    }
 
     mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
-    }
-    
-    func index(of card: Card) -> Int {
-        for index in cards.indices {
-            if cards[index].id == card.id {
-                return index
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }) {
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialMatchIndex = indexOfOneAndOnlyFaceUpCard {
+                    if cards[chosenIndex].content == cards[potentialMatchIndex].content {
+                        cards[chosenIndex].isMatched = true
+                        cards[potentialMatchIndex].isMatched = true
+                    }
+                } else {
+                    indexOfOneAndOnlyFaceUpCard = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true
             }
         }
-        
-        return 0 // FIXME: Bogus !!
     }
+    
+    // Instead of this function we can use array.firstIndex (Familiarize yourself with Array methods.)
+    // We used this function in choose() but we replaced it with array.firstIndex. (Look choose function)
+//    private func index(of card: Card) -> Int? {
+//        for index in cards.indices {
+//            if cards[index].id == card.id {
+//                return index
+//            }
+//        }
+//
+//        return nil
+//    }
     
     mutating func shuffle() {
         cards.shuffle()
@@ -57,5 +75,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             "\(id): \(content) \(isFaceUp ? "up" : "down") \(isMatched ? "matched" : "")"
         }
 
+    }
+}
+
+extension Array {
+    var only: Element? {
+        return count == 1 ? first : nil
     }
 }

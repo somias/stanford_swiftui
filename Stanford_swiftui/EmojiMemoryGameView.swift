@@ -11,30 +11,58 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame
     let emojis = ["👻", "🎃", "🕷️", "😈", "💀", "🕸️", "🧙‍♀️", "🙀", "👹", "😱", "☠️", "🍭"]
     
+    private let aspectRatio: CGFloat = 2/3
+    
     var body: some View {
         VStack {
-            ScrollView {
-                cards
-                    .animation(.default, value: viewModel.cards)
-                    
-            }.scrollIndicators(.hidden)
+            cards
+                .animation(.default, value: viewModel.cards)
+            
             Button("Shuffle") {
                 viewModel.shuffle()
             }
         }.padding()
     }
     
-    var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 0) {
-            ForEach(viewModel.cards) { card in
-                CardView(card)
-                    .aspectRatio(2/3, contentMode: .fit)
-                    .padding(4)
-                    .onTapGesture {
-                        viewModel.chooseCard(card)
-                    }
+//    @ViewBuilder
+    private var cards: some View {
+        // "cards" is a function that returns "some View", and if we want to have variables delcared like aspectRatio. We need to add @ViewBuilder to this function.
+        // This is just example, we will create aspectRatio we will put on top and declare it as normal variable.
+        //  let aspectRatio: CGFloat = 2/3
+        
+        GeometryReader { geometry in
+            let gridItemSize = gridItemWidthThatFits(count: viewModel.cards.count, size: geometry.size, atAspectRatio: aspectRatio)
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: gridItemSize), spacing: 0)], spacing: 0) {
+                ForEach(viewModel.cards) { card in
+                    CardView(card)
+                        .aspectRatio(aspectRatio, contentMode: .fit)
+                        .padding(4)
+                        .onTapGesture {
+                            viewModel.chooseCard(card)
+                        }
+                }
             }
         }  .foregroundColor(.orange)
+    }
+    
+    func gridItemWidthThatFits(count: Int, size: CGSize, atAspectRatio aspectRatio: CGFloat) -> CGFloat {
+        let count = CGFloat(count)
+        var columnCount = 1.0
+        
+        repeat {
+            let width = size.width / columnCount
+            let height = width / aspectRatio
+            
+            let rowCount = (count / columnCount).rounded(.up)
+            if rowCount * height < size.height {
+                return (size.width / columnCount).rounded(.down)
+            }
+            columnCount += 1
+            
+        } while columnCount < count
+        
+        return min(size.width / count, size.height * aspectRatio).rounded(.down)
     }
 }
 
@@ -64,7 +92,7 @@ struct CardView: View {
             }.opacity(card.isFaceUp ? 1 : 0)
             
             base.fill().opacity(card.isFaceUp ? 0 : 1)
-        }
+        }.opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
@@ -88,6 +116,7 @@ struct CardView: View {
 
 struct EmojiMemoryGameView_Previews: PreviewProvider {
     static var previews: some View {
+        // Calling EmojiMemoryGame like this here is only recommended for Previews.
         EmojiMemoryGameView(viewModel: EmojiMemoryGame())
     }
 }
