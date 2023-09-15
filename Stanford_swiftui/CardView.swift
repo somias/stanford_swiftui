@@ -28,11 +28,16 @@ struct CardView: View {
             Group {
                 base.fill(.white)
                 base.strokeBorder(lineWidth: Constants.lineWidth)
-                Text(card.content)
-                    .font(.system(size: Constants.FontSize.largest))
-                    .minimumScaleFactor(Constants.FontSize.scaleFactor)
-                    .multilineTextAlignment(.center)
-                    .aspectRatio(1, contentMode: .fit)
+                Pie(endAngle: .degrees(240))
+                    .opacity(Constants.Pie.opacity)
+                    .overlay {
+                        Text(card.content)
+                            .font(.system(size: Constants.FontSize.largest))
+                            .minimumScaleFactor(Constants.FontSize.scaleFactor)
+                            .multilineTextAlignment(.center)
+                            .aspectRatio(1, contentMode: .fit)
+                            .padding(Constants.Pie.inset)
+                    }
                     .padding(Constants.inset)
             }.opacity(card.isFaceUp ? 1 : 0)
             
@@ -48,6 +53,10 @@ struct CardView: View {
             static let largest: CGFloat = 200
             static let smallest: CGFloat = 10
             static let scaleFactor = smallest / largest
+        }
+        struct Pie {
+            static let opacity: CGFloat = 0.5
+            static let inset: CGFloat = 5
         }
     }
 }
@@ -71,7 +80,7 @@ struct CardView_Previews: PreviewProvider {
                 CardView(Card(isMatched: true, content: "x", id: "test1"))
             }
         }
-            .padding()
-            .foregroundColor(.green)
+        .padding()
+        .foregroundColor(.green)
     }
 }
