@@ -21,22 +21,34 @@ struct CardView: View {
             // Reason I can use variable like this is because of ViewBuilder
             // let base: RoundedRectangle = RoundedRectangle(cornerRadius: 12)
             // But beacuse of "Type Inference" we don't need to explicitly write Type.
-            let base = RoundedRectangle(cornerRadius: 12)
+            let base = RoundedRectangle(cornerRadius: Constants.cornerRadius)
             // But ViewBuilder only can do If's (conditionals, also Switch), lists and local variables.
             
             // Use Group to "group" together statements and add modifiers. Instead of adding opacity on every line inside Group, I just add Opacity as Group modifier.
             Group {
                 base.fill(.white)
-                base.strokeBorder(lineWidth: 2)
+                base.strokeBorder(lineWidth: Constants.lineWidth)
                 Text(card.content)
-                    .font(.system(size: 200))
-                    .minimumScaleFactor(0.01)
+                    .font(.system(size: Constants.FontSize.largest))
+                    .minimumScaleFactor(Constants.FontSize.scaleFactor)
                     .multilineTextAlignment(.center)
                     .aspectRatio(1, contentMode: .fit)
+                    .padding(Constants.inset)
             }.opacity(card.isFaceUp ? 1 : 0)
             
             base.fill().opacity(card.isFaceUp ? 0 : 1)
         }.opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
+    }
+    
+    private struct Constants {
+        static let cornerRadius: CGFloat = 12
+        static let lineWidth: CGFloat = 2
+        static let inset: CGFloat = 5
+        struct FontSize {
+            static let largest: CGFloat = 200
+            static let smallest: CGFloat = 10
+            static let scaleFactor = smallest / largest
+        }
     }
 }
 

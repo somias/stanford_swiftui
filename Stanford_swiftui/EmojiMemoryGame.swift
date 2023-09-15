@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// This is a ViewModel
 class EmojiMemoryGame: ObservableObject {
     typealias Card = MemoryGame<String>.Card
     

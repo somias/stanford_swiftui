@@ -49,6 +49,7 @@
 		0724EB1B2A8CDDDC00F4FF0B = {
 			isa = PBXGroup;
 			children = (
+				0724EB272A8CDDDC00F4FF0B /* Stanford_swiftuiApp.swift */,
 				0721D7BE2A9CD2F0008D8991 /* LayoutPlayground.swift */,
 				0724EB262A8CDDDC00F4FF0B /* Stanford_swiftui */,
 				0724EB252A8CDDDC00F4FF0B /* Products */,
@@ -67,7 +68,6 @@
 			isa = PBXGroup;
 			children = (
 				0786683C2AB4B406009C9BCD /* CardView.swift */,
-				0724EB272A8CDDDC00F4FF0B /* Stanford_swiftuiApp.swift */,
 				0724EB292A8CDDDC00F4FF0B /* EmojiMemoryGameView.swift */,
 				079E94A22A8FB11000A8D955 /* EmojiMemoryGame.swift */,
 				079E94A02A8FAECA00A8D955 /* MemoryGame.swift */,
